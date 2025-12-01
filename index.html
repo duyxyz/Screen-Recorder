@@ -6,7 +6,7 @@
 <title>Screen Recorder</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* CSS remain the same as the layout is preserved */
+/* --- Original CSS (mostly the same) --- */
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -18,7 +18,7 @@ body{
   overflow-y:auto;
   padding:32px;
   justify-content:center;
-  align-items:center; /* Centered vertically as requested */
+  align-items:center;
 }
 .container{
   width:100%;
@@ -36,20 +36,75 @@ body{
   display:flex;
   flex-direction:column;
 }
-@media (max-width:1200px){
-  .grid{
-    grid-template-columns:1fr 320px;
-  }
-  .left-sidebar{display:none}
+
+/* --- New & Modified CSS for Mobile Restriction --- */
+
+/* Default: Hide the mobile message */
+.mobile-message {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    max-width: 400px;
 }
-@media (max-width:768px){
-  body{padding:16px}
+.mobile-message h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: #1a1a1a;
+}
+.mobile-message p {
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.6;
+}
+.mobile-message img {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+}
+
+/* On small screens (Mobile/Tablet), show the message and hide the main content */
+@media (max-width:1200px){
+  /* Hide main content on smaller screens */
+  .grid, .container {
+    display: none !important;
+  }
+  /* Show the mobile message */
+  .mobile-message {
+    display: block;
+  }
+  /* Override body padding for centered mobile message */
+  body {
+    padding: 16px;
+  }
+}
+
+/* --- Original Media Queries (Keep them for reference, but mobile-message handles the main logic) --- */
+@media (min-width:1201px){ /* Re-adjusting the grid display for desktop */
+  .grid{
+    grid-template-columns:320px 1fr 320px;
+  }
+  .left-sidebar{display:flex}
+}
+@media (max-width:1200px) and (min-width: 769px) { /* Tablet view */
+  .grid {
+    grid-template-columns: 1fr 320px;
+  }
+  .left-sidebar {
+    display: none;
+  }
+}
+@media (max-width:768px){ /* Mobile View (This is now covered by the mobile-message block) */
   .grid{
     grid-template-columns:1fr;
     gap:16px;
   }
   .left-sidebar,.right-sidebar{display:none}
 }
+
+/* --- The rest of the original CSS (card, status-box, btn, etc.) --- */
 .card{
   background:#ffffff;
   border:1px solid #e0e0e0;
@@ -294,6 +349,13 @@ body{
 </head>
 <body>
 
+<div class="mobile-message">
+    <img src="assets/monitor.png" alt="Desktop Required">
+    <h2>Desktop Required</h2>
+    <p>This Screen Recorder application requires desktop or a larger screen environment to function correctly and for the best user experience.</p>
+    <p style="margin-top: 10px;">Please open this page on a desktop or a laptop computer.</p>
+</div>
+
 <div class="container">
   <div class="grid">
     <div class="left-sidebar">
@@ -354,7 +416,10 @@ body{
             <img src="assets/play.png" alt="Preview">
             Preview
           </div>
+          <div class="card-subtitle">Click 'Start' to select the area for recording</div>
           <div class="card-subtitle">Your recorded video will appear here</div>
+
+
         </div>
 
         <div class="preview-container empty" id="previewContainer">
